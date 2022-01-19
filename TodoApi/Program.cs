@@ -3,11 +3,10 @@ using Microsoft.Extensions.Logging.AzureAppServices;
 using TodoApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("TodoList") ?? "Data Source=TodoList.db";
 
 // Add services to the container.
 builder.Services.AddControllers();
-builder.Services.AddSqlite<TodoContext>(connectionString);
+builder.Services.AddSqlite<TodoContext>(builder.Configuration.GetConnectionString("Default"));
     
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
