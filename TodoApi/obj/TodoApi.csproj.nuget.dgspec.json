@@ -14,6 +14,7 @@
         "outputPath": "C:\\Users\\ailee\\Development\\dotnet-web-api-tutorial\\TodoApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
+          "C:\\Users\\ailee\\Development\\dotnet-web-api-tutorial\\NuGet.Config",
           "C:\\Users\\ailee\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
@@ -38,6 +39,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "Microsoft.EntityFrameworkCore.InMemory": {
+              "target": "Package",
+              "version": "[6.0.1, )"
+            },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.2.3, )"
