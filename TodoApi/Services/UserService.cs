@@ -15,7 +15,7 @@ namespace TodoApi.Services
       this.authService = authService;
     }
 
-    public async Task<User> Create(UserInput input)
+    public async Task<UserDto> Create(UserRegisterInput input)
     {
       if (input.Password != input.PasswordConfirm)
       {
@@ -35,19 +35,38 @@ namespace TodoApi.Services
 
       await repository.AddAsync(user);
 
-      // TODO map to output dto
-
-      return user;
+      return MapEntityToOutputDto(user);
     }
 
-    private async Task<bool> CheckIfUserExists(string email)
+    public async Task<bool> CheckIfUserExists(string email)
     {
-      var existingUser = await repository.FindAsync(x => x.Email == email);
+      var existingUser = await GetUser(email);
       if (existingUser == null)
       {
         return false;
       }
       return true;
+    }
+
+    public async Task<UserDto> GetUser(string email)
+    {
+      var user = await repository.FindAsync(x => x.Email == email);
+      return MapEntityToOutputDto(user);
+    }
+
+    public async Task<bool> VerifyUserPassword(UserInput input)
+    {
+      var user = await repository.FindAsync(x => x.Email == input.Email);
+      return authService.VerifyPasswordHash(input.Password, user.PasswordHash, user.PasswordSalt);
+    }
+
+    // TODO make a generic entity mapper
+    private UserDto MapEntityToOutputDto(User user)
+    {
+      return new UserDto()
+      {
+        Email = user.Email
+      };
     }
   }
 }
