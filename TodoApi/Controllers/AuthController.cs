@@ -1,4 +1,7 @@
+using System.Security.Claims;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using TodoApi.Dtos.Users;
 using TodoApi.Models.Users;
 using TodoApi.Services;
@@ -43,7 +46,8 @@ namespace TodoApi.Controllers
         return BadRequest("Incorrect password.");
       }
 
-      return Ok("Token");
+      string token = authService.CreateToken(input.Email);
+      return Ok(token);
     }
   }
 }
