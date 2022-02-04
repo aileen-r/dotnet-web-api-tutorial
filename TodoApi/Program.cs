@@ -23,6 +23,15 @@ builder.Services.Configure<AzureFileLoggerOptions>(options =>
 
 var app = builder.Build();
 
+// Run migrations
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<TodoContext>();    
+    context.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
