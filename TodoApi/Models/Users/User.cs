@@ -1,5 +1,3 @@
-using System;
-
 namespace TodoApi.Models.Users
 {
   public class User
@@ -9,7 +7,9 @@ namespace TodoApi.Models.Users
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
 
-    public User (string email, byte[] passwordHash, byte[] passwordSalt)
+    public User() { }
+
+    public User(string email, byte[] passwordHash, byte[] passwordSalt)
     {
       Id = Guid.NewGuid();
       Email = email;

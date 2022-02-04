@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using TodoApi.Models;
+using TodoApi.Repositories;
 using TodoApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,8 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddSqlite<TodoContext>(builder.Configuration.GetConnectionString("Default"));
-builder.Services.AddSingleton<IUserService, UserService>();
-builder.Services.AddSingleton<IAuthService, AuthService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

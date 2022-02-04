@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TodoApi.Models.Users;
 
 namespace TodoApi.Models
 {
@@ -10,5 +11,6 @@ namespace TodoApi.Models
         }
 
         public DbSet<TodoItem> TodoItems { get; set; } = null!;
+        public DbSet<User> Users { get; set; } = null!;
     }
 }
