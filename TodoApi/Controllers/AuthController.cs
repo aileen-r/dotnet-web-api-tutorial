@@ -21,7 +21,7 @@ namespace TodoApi.Controllers
     {
       var user = await userService.Create(userInput);
 
-      return Ok(User);
+      return Ok(user);
     }
   }
 }
