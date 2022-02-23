@@ -1,4 +1,3 @@
-using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
@@ -35,13 +34,17 @@ namespace TodoApi.Services
       }
     }
 
-    public string CreateToken(string name)
+    public string CreateToken(string name, HashSet<Role> roles)
     {
       List<Claim> claims = new List<Claim>
       {
         new Claim(ClaimTypes.Name, name),
-        new Claim(ClaimTypes.Role, Enum.GetName(typeof(Roles), Roles.User))
       };
+
+      foreach (var role in roles)
+      {
+        claims.Add(new Claim(ClaimTypes.Role, Enum.GetName(typeof(Role), role)));
+      }
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Secret").Value));
       var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);

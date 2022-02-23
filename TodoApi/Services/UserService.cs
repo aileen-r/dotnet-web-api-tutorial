@@ -22,8 +22,8 @@ namespace TodoApi.Services
         throw new Exception("Password confirmation does not match password.");
       }
 
-      var userExists = await CheckIfUserExists(input.Email);
-      if (userExists)
+      var userExists = await GetUser(input.Email);
+      if (userExists != null)
       {
         throw new Exception($"User '{input.Email}' already exists");
       }
@@ -36,16 +36,6 @@ namespace TodoApi.Services
       await repository.AddAsync(user);
 
       return MapEntityToOutputDto(user);
-    }
-
-    public async Task<bool> CheckIfUserExists(string email)
-    {
-      var existingUser = await GetUser(email);
-      if (existingUser == null)
-      {
-        return false;
-      }
-      return true;
     }
 
     public async Task<UserDto> GetUser(string email)
@@ -69,7 +59,8 @@ namespace TodoApi.Services
     {
       return new UserDto()
       {
-        Email = user.Email
+        Email = user.Email,
+        Roles = user.Roles
       };
     }
   }

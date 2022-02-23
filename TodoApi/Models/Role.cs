@@ -1,6 +1,6 @@
 namespace TodoApi.Models
 {
-  public enum Roles
+  public enum Role
   {
     User
   }

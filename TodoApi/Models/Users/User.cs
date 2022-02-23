@@ -6,6 +6,7 @@ namespace TodoApi.Models.Users
     public string Email { get; set; } = string.Empty;
     public byte[] PasswordHash { get; set; }
     public byte[] PasswordSalt { get; set; }
+    public HashSet<Role> Roles { get; set; }
 
     public User() { }
 
@@ -15,6 +16,10 @@ namespace TodoApi.Models.Users
       Email = email;
       PasswordHash = passwordHash;
       PasswordSalt = passwordSalt;
+      Roles = new HashSet<Role>()
+      {
+        Role.User
+      };
     }
   }
 }

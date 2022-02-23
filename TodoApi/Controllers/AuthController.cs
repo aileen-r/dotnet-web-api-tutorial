@@ -1,7 +1,4 @@
-using System.Security.Claims;
-using System.Text;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using TodoApi.Dtos.Users;
 using TodoApi.Models.Users;
 using TodoApi.Services;
@@ -32,10 +29,10 @@ namespace TodoApi.Controllers
     [HttpPost("login")]
     public async Task<ActionResult<string>> Login(UserInput input)
     {
-      var userExists = await userService.CheckIfUserExists(input.Email);
+      var user = await userService.GetUser(input.Email);
 
       // TODO: for prod these should return the same error
-      if (!userExists)
+      if (user == null)
       {
         return BadRequest("User not found.");
       }
@@ -46,7 +43,7 @@ namespace TodoApi.Controllers
         return BadRequest("Incorrect password.");
       }
 
-      string token = authService.CreateToken(input.Email);
+      string token = authService.CreateToken(user.Email, user.Roles);
       return Ok(token);
     }
   }
