@@ -51,7 +51,11 @@ namespace TodoApi.Services
     public async Task<UserDto> GetUser(string email)
     {
       var user = await repository.FindAsync(x => x.Email == email);
-      return MapEntityToOutputDto(user);
+      if (user != null)
+      {
+        return MapEntityToOutputDto(user);
+      }
+      return null;
     }
 
     public async Task<bool> VerifyUserPassword(UserInput input)
