@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using TodoApi.Models;
 
 namespace TodoApi.Services
 {
@@ -38,7 +39,8 @@ namespace TodoApi.Services
     {
       List<Claim> claims = new List<Claim>
       {
-        new Claim(ClaimTypes.Name, name)
+        new Claim(ClaimTypes.Name, name),
+        new Claim(ClaimTypes.Role, Enum.GetName(typeof(Roles), Roles.User))
       };
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Secret").Value));

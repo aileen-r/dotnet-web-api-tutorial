@@ -12,7 +12,7 @@ using TodoApi.Models;
 namespace TodoApi.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController, Authorize]
+    [ApiController, Authorize(Roles = "User")]
     public class TodoItemsController : ControllerBase
     {
         private readonly TodoContext _context;
