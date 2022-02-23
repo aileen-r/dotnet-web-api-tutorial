@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.AzureAppServices;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using TodoApi.Models;
@@ -17,6 +18,16 @@ builder.Services.AddSqlite<TodoContext>(builder.Configuration.GetConnectionStrin
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(
+    builder =>
+    {
+      builder.WithOrigins("http://localhost:3000")
+        .WithHeaders(HeaderNames.ContentType);
+    });
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -73,6 +84,8 @@ app.UseSwaggerUI();
 // }
 
 app.UseHttpsRedirection();
+
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

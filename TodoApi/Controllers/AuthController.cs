@@ -18,7 +18,7 @@ namespace TodoApi.Controllers
       this.authService = authService;
     }
 
-    [HttpPost("register")]
+    [HttpPost("Register")]
     public async Task<ActionResult<User>> Register(UserRegisterInput input)
     {
       var user = await userService.Create(input);
@@ -26,7 +26,7 @@ namespace TodoApi.Controllers
       return Ok(user);
     }
 
-    [HttpPost("login")]
+    [HttpPost("Login")]
     public async Task<ActionResult<string>> Login(UserInput input)
     {
       var user = await userService.GetUser(input.Email);
