@@ -45,7 +45,9 @@ namespace TodoApi.Services
       {
         return MapEntityToOutputDto(user);
       }
+      #pragma warning disable CS8603
       return null;
+      #pragma warning restore CS8603
     }
 
     public async Task<bool> VerifyUserPassword(UserInput input)

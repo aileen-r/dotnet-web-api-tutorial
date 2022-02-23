@@ -43,7 +43,9 @@ namespace TodoApi.Services
 
       foreach (var role in roles)
       {
+        #pragma warning disable CS8604
         claims.Add(new Claim(ClaimTypes.Role, Enum.GetName(typeof(Role), role)));
+        #pragma warning restore CS8604
       }
 
       var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration.GetSection("Jwt:Secret").Value));

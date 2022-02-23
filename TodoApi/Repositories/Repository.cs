@@ -71,7 +71,9 @@ namespace TodoApi.Repositories
 
     public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
     {
+      #pragma warning disable CS8603
       return await GetQueryable().FirstOrDefaultAsync(predicate);
+      #pragma warning restore CS8603
     }
 
     public async Task<TEntity> UpdateAsync(TEntity entity)

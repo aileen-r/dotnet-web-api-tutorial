@@ -6,6 +6,7 @@ namespace TodoApi.Utilities
   public class EnumHashSetJsonValueConverter<T> : ValueConverter<HashSet<T>, string> where T : Enum
   {
     // https://gregkedzierski.com/essays/enum-collection-serialization-in-dotnet-core-and-entity-framework-core/
+    #pragma warning disable CS8604
     public EnumHashSetJsonValueConverter() : base(
       v => JsonConvert
         .SerializeObject(v.Select(e => e.ToString()).ToList()),
@@ -14,5 +15,6 @@ namespace TodoApi.Utilities
         .Select(e => (T)Enum.Parse(typeof(T), e)).ToHashSet())
     {
     }
+    #pragma warning disable CS8604
   }
 }
