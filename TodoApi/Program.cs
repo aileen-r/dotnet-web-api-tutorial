@@ -19,12 +19,13 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
+var corsOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>();
 builder.Services.AddCors(options =>
 {
   options.AddDefaultPolicy(
-    builder =>
+    b =>
     {
-      builder.WithOrigins("http://localhost:3000")
+      b.WithOrigins(corsOrigins)
         .WithHeaders(HeaderNames.ContentType);
     });
 });
