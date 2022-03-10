@@ -1,6 +1,7 @@
 using TodoApi.Models.Users.Dtos;
 using TodoApi.Models.Users;
 using TodoApi.Repositories;
+using TodoApi.Models.Exceptions;
 
 namespace TodoApi.Services
 {
@@ -19,13 +20,19 @@ namespace TodoApi.Services
     {
       if (input.Password != input.PasswordConfirm)
       {
-        throw new ApplicationException("Password confirmation does not match password.");
+        throw new TodoApiException(
+          "Password confirmation does not match password",
+          String.Empty
+          );
       }
 
       var userExists = await GetUser(input.Email);
       if (userExists != null)
       {
-        throw new ApplicationException($"User '{input.Email}' already exists");
+        throw new TodoApiException(
+          "Account already exists",
+          $"User '{input.Email}' already exists"
+          );
       }
 
       authService.CreatePasswordHash(input.Password, out byte[] passwordHash, out byte[] passwordSalt);
@@ -45,9 +52,9 @@ namespace TodoApi.Services
       {
         return MapEntityToOutputDto(user);
       }
-      #pragma warning disable CS8603
+#pragma warning disable CS8603
       return null;
-      #pragma warning restore CS8603
+#pragma warning restore CS8603
     }
 
     public async Task<bool> VerifyUserPassword(UserInput input)

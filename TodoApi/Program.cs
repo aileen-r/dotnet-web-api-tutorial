@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using TodoApi.Middlewares;
 using TodoApi.Models;
 using TodoApi.Repositories;
 using TodoApi.Services;
@@ -76,6 +77,8 @@ using (var scope = app.Services.CreateScope())
   var context = services.GetRequiredService<TodoContext>();
   context.Database.Migrate();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
