@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TodoApi.Dtos.Users;
+using TodoApi.Models.Users.Dtos;
 using TodoApi.Models.Users;
 using TodoApi.Services;
 

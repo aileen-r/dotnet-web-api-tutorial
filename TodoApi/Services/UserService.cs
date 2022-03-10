@@ -1,4 +1,4 @@
-using TodoApi.Dtos.Users;
+using TodoApi.Models.Users.Dtos;
 using TodoApi.Models.Users;
 using TodoApi.Repositories;
 
@@ -19,13 +19,13 @@ namespace TodoApi.Services
     {
       if (input.Password != input.PasswordConfirm)
       {
-        throw new Exception("Password confirmation does not match password.");
+        throw new ApplicationException("Password confirmation does not match password.");
       }
 
       var userExists = await GetUser(input.Email);
       if (userExists != null)
       {
-        throw new Exception($"User '{input.Email}' already exists");
+        throw new ApplicationException($"User '{input.Email}' already exists");
       }
 
       authService.CreatePasswordHash(input.Password, out byte[] passwordHash, out byte[] passwordSalt);

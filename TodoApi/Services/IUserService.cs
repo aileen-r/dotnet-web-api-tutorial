@@ -1,4 +1,4 @@
-using TodoApi.Dtos.Users;
+using TodoApi.Models.Users.Dtos;
 
 namespace TodoApi.Services
 {
