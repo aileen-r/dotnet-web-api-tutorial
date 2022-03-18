@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using TodoApi.Models.Users.Dtos;
 using TodoApi.Models.Users;
 using TodoApi.Services;
+using TodoApi.Models.Exceptions;
 
 namespace TodoApi.Controllers
 {
@@ -11,6 +12,7 @@ namespace TodoApi.Controllers
   {
     private readonly IUserService userService;
     private readonly IAuthService authService;
+    private readonly bool isDevelopment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development";
 
     public AuthController(IUserService userService, IAuthService authService)
     {
@@ -31,16 +33,22 @@ namespace TodoApi.Controllers
     {
       var user = await userService.GetUser(input.Email);
 
-      // TODO: for prod these should return the same error
       if (user == null)
       {
-        return BadRequest("User not found.");
+        if (isDevelopment)
+        {
+          throw new TodoApiException("Incorrect email address or password", $"The user '{input.Email}' does not exist.");
+        }
+        throw new TodoApiException("Incorrect email address or password");
       }
 
       var correctPassword = await userService.VerifyUserPassword(input);
       if (!correctPassword)
-      {
-        return BadRequest("Incorrect password.");
+      {if (isDevelopment)
+        {
+          throw new TodoApiException("Incorrect email address or password", $"Password for user '{input.Email}' is incorrect.");
+        }
+        throw new TodoApiException("Incorrect email address or password");
       }
 
       string token = authService.CreateToken(user.Email, user.Roles);
